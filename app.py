@@ -1,20 +1,18 @@
 # coding=utf-8
-from flask import Flask, request
+from flask import Flask, request, render_template, send_file
+from flask_bootstrap import Bootstrap
 
 import cStringIO
 import qrcode
-from flask import send_file
+
 
 
 app = Flask(__name__)
+Bootstrap(app)
 
 @app.route('/')
 def index():
-    return '<h1>Ciao Mondo</h1> <h2>Sottotitolo</h2>'
-
-@app.route('/test')
-def test():
-    return '<h1>Questo è un test</h1>'
+    return render_template('index.html')
 
 @app.route('/ciaocode')
 def ciao_code():
@@ -31,7 +29,6 @@ def gen_code_from_dynamic_url(value):
     img.save(img_buf)
     img_buf.seek(0)
     return send_file(img_buf, mimetype='image/png')
-
 
 @app.route('/qrcode')
 def gen_code_from_get_request():
